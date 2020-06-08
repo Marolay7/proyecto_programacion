@@ -10,6 +10,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
 /**
@@ -23,13 +24,25 @@ public class bancoManagedBean implements Serializable {
     @EJB
     private BancoIdeasFacadeLocal bancoIdeasFacade;
     
-    BancoIdeas banco = new BancoIdeas();
-    
+    private BancoIdeas banco;
     private Integer id;
     private String nombre;
-    private Modalidad modalidadId;
-    private Programa programaCodigo;
-    private Docente profDocumento;
+    private Modalidad modalidad;
+    private Programa programa;
+    private Docente profesor;
+    
+    private List<BancoIdeas> bancoIdeasList;
+    
+     public List<BancoIdeas> getListaRegistro() {
+        this.bancoIdeasList = this.bancoIdeasFacade.findAll();
+        return bancoIdeasList;
+    }
+
+    public void setListaRegistro(List<BancoIdeas> bancoIdeasList) {
+        this.bancoIdeasList = bancoIdeasList;
+    }
+
+
 
     public BancoIdeas getBanco() {
         return banco;
@@ -55,26 +68,43 @@ public class bancoManagedBean implements Serializable {
         this.nombre = nombre;
     }
 
-    public Modalidad getModalidadId() {
-        return modalidadId;
+    public Modalidad getModalidad() {
+        return modalidad;
     }
 
-    public void setModalidadId(Modalidad modalidadId) {
-        this.modalidadId = modalidadId;
+    public void setModalidad(Modalidad modalidad) {
+        this.modalidad = modalidad;
     }
 
-    public Programa getProgramaCodigo() {
-        return programaCodigo;
+    public Programa getPrograma() {
+        return programa;
     }
 
-    public void setProgramaCodigo(Programa programaCodigo) {
-        this.programaCodigo = programaCodigo;
+    public void setPrograma(Programa programa) {
+        this.programa = programa;
+    }
+
+    public Docente getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Docente profesor) {
+        this.profesor = profesor;
+    }
+    
+     @PostConstruct
+    public void init() {
+        this.banco = new BancoIdeas();
+        this.modalidad = new Modalidad();
+        this.programa = new Programa();
+        this.profesor = new Docente();
     }
 
     public List<BancoIdeas> findAll() {
         return bancoIdeasFacade.findAll();
     }
-    
+
+
 
     public bancoManagedBean() {
     }
