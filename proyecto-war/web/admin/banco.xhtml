@@ -28,56 +28,82 @@
                 <p:panelGrid columns="2">
                     
                     <p:outputLabel value="Ingrese Id"/>
-                    <p:calendar value="#{bancoManagedBean.banco.id}"/>
+                    <p:inputText value="#{bancoManagedBean.banco.id}"/>
                     
                     <p:outputLabel value="Ingrese Nombre"/>
-                    <p:calendar value="#{bancoManagedBean.banco.nombre}"/>
+                    <p:inputText value="#{bancoManagedBean.banco.nombre}"/>
                     
-                    <p:outputLabel value="Seleccione Materia" />
+                    <p:outputLabel value="Seleccione docente" />
                     <p:selectOneMenu value="#{bancoManagedBean.banco.profDocumento}">
-                        <f:selectItems value="#{materiaManagedBean.listaMateria}" var="m" 
-                                       itemValue="#{m.idMateria}" itemLabel="#{m.materia}" />
+                        <f:selectItems value="#{docenteManagedBean.findAll()}" var="d" 
+                                       itemValue="#{d.documento}" itemLabel="#{d.nombre}" />
                     </p:selectOneMenu>
-                    <p:outputLabel value="Seleccione Maestro" />
-                    <p:selectOneMenu value="#{registroManagedBean.maestro.idMaestro}">
-                        <f:selectItems value="#{maestroManagedBean.listaMaestro}" var="ma" 
-                                       itemValue="#{ma.idMaestro}" itemLabel="#{ma.nombre} #{ma.apellido}"  />
+                    
+                    <p:outputLabel value="Seleccione Modalidad" />
+                    <p:selectOneMenu value="#{bancoManagedBean.banco.modalidadId}">
+                        <f:selectItems value="#{modalidadManagedBean.findAll()}" var="m" 
+                                       itemValue="#{m.id}" itemLabel="#{m.nombre}"  />
                     </p:selectOneMenu>
-                    <p:commandButton value="Save" actionListener="#{registroManagedBean.guardar()}" oncomplete="PF('valor').hide();"
-                                     rendered="#{registroManagedBean.registro.id == 0}"
+                    <p:outputLabel value="Seleccione Programa" />
+                    <p:selectOneMenu value="#{bancoManagedBean.banco.programaCodigo}">
+                        <f:selectItems value="#{programaManagedBean.findAll()}" var="pro" 
+                                       itemValue="#{pro.codigo}" itemLabel="#{pro.nombre}"  />
+                    </p:selectOneMenu> 
+ 
+                    <p:commandButton value="Save" actionListener="#{bancoManagedBean.guardar()}" oncomplete="PF('valor').hide();"
+                                     rendered="#{bancoManagedBean.banco.id == 0}"
                                      update=":Datos p :msj"/>
-                    <p:commandButton value="Update" actionListener="#{registroManagedBean.actualizar()}" oncomplete="PF('valor').hide();"
-                                     rendered="#{registroManagedBean.registro.id != 0}"
+                    <p:commandButton value="Update" actionListener="#{bancoManagedBean.actualizar()}" oncomplete="PF('valor').hide();"
+                                     rendered="#{bancoManagedBean.banco.id != 0}"
                                      update=":Datos p :msj"/>
                 </p:panelGrid>
             </h:form>
         </p:dialog>
         <h:form id="Datos">
             <p:fieldset legend="Datos" toggleable="true">
-                <p:dataTable id="registro" value="#{registroManagedBean.listaRegistro}" var="r">
-                    <p:column headerText="Id">
-                        <h:outputText value="#{r.id}" />
+                <p:dataTable id="registro" value="#{bancoManagedBean.findAll()}" var="item">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
                     </p:column>
-                    <p:column headerText="Fecha">
-                        <h:outputText value="#{r.fecha}">
-                            <f:convertDateTime pattern="YYYY-MM-dd" />
-                        </h:outputText>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombre}"/>
                     </p:column>
-                    <p:column headerText="Nombre">
-                        <h:outputText value="#{r.idMaestro.nombre}" />
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Modalidad"/>
+                        </f:facet>
+                        <h:outputText value="#{item.modalidadId.nombre}"/>
                     </p:column>
-                    <p:column headerText="Apellido">
-                        <h:outputText value="#{r.idMaestro.apellido}" />
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Programa"/>
+                        </f:facet>
+                        <h:outputText value="#{item.programaCodigo.nombre}"/>
                     </p:column>
-                    <p:column headerText="Materia">
-                        <h:outputText value="#{r.idMateria.materia}" />
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Profesor"/>
+                        </f:facet>
+                        <h:outputText value="#{item.profDocumento.nombre}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Profesor correo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.profDocumento.correo}"/>
                     </p:column>
                     <p:column headerText="Eliminar" exportable="false">
-                        <p:commandButton value="Eliminar" actionListener="#{registroManagedBean.eliminar(r)}" 
+                        <p:commandButton value="Eliminar" actionListener="#{bancoManagedBean.eliminar(item)}" 
                                          update=":Datos :msj"/>
                     </p:column>
                     <p:column headerText="Actualizar" exportable="false">
-                        <p:commandButton value="Actualizar" actionListener="#{registroManagedBean.cargarDatos(r)}" 
+                        <p:commandButton value="Actualizar" actionListener="#{bancoManagedBean.cargarDatos(item)}" 
                                          update=":p" oncomplete="PF('valor').show();"/>
                     </p:column>
                 </p:dataTable>
@@ -93,69 +119,7 @@
         </h:form>
                 
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                <f:view>
-
-                    <h:form>
-                        <h1><h:outputText value="Lista de Banco de Ideas "/></h1>
-                        <p:dataTable value="#{bancoManagedBean.findAll()}" var="item">
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Id"/>
-                                </f:facet>
-                                <h:outputText value="#{item.id}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Nombre"/>
-                                </f:facet>
-                                <h:outputText value="#{item.nombre}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Modalidad"/>
-                                </f:facet>
-                                <h:outputText value="#{item.modalidadId.nombre}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Programa"/>
-                                </f:facet>
-                                <h:outputText value="#{item.programaCodigo.nombre}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Profesor nombre"/>
-                                </f:facet>
-                                <h:outputText value="#{item.profDocumento.username}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Profesor apellidos"/>
-                                </f:facet>
-                                <h:outputText value="#{item.profDocumento.apellido}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Profesor correo"/>
-                                </f:facet>
-                                <h:outputText value="#{item.profDocumento.correo}"/>
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
-                </f:view>
-
-            </ui:define>
+        </ui:define>
 
         </ui:composition>
 

@@ -3,9 +3,9 @@ package controladores;
 
 import ejb.BancoIdeasFacadeLocal;
 import entidades.BancoIdeas;
+import entidades.Docente;
 import entidades.Modalidad;
 import entidades.Programa;
-import entidades.Users;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -29,7 +29,7 @@ public class bancoManagedBean implements Serializable {
     private String nombre;
     private Modalidad modalidadId;
     private Programa programaCodigo;
-    private Users profDocumento;
+    private Docente profDocumento;
 
     public BancoIdeas getBanco() {
         return banco;
@@ -69,14 +69,6 @@ public class bancoManagedBean implements Serializable {
 
     public void setProgramaCodigo(Programa programaCodigo) {
         this.programaCodigo = programaCodigo;
-    }
-
-    public Users getProfDocumento() {
-        return profDocumento;
-    }
-
-    public void setProfDocumento(Users profDocumento) {
-        this.profDocumento = profDocumento;
     }
 
     public List<BancoIdeas> findAll() {
