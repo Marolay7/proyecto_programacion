@@ -59,18 +59,18 @@ public class Propuesta implements Serializable {
     @JoinColumn(name = "CONCEPTO_ID", referencedColumnName = "ID")
     @ManyToOne
     private Concepto conceptoId;
+    @JoinColumn(name = "CODIR_ID", referencedColumnName = "DOCUMENTO")
+    @ManyToOne
+    private Docente codirId;
+    @JoinColumn(name = "DIR_ID", referencedColumnName = "DOCUMENTO")
+    @ManyToOne
+    private Docente dirId;
+    @JoinColumn(name = "EST_ID", referencedColumnName = "DOCUMENTO")
+    @ManyToOne
+    private Estudiante estId;
     @JoinColumn(name = "MODALIDAD_ID", referencedColumnName = "ID")
     @ManyToOne
     private Modalidad modalidadId;
-    @JoinColumn(name = "CODIR_ID", referencedColumnName = "DOCUMENTO")
-    @ManyToOne
-    private Users codirId;
-    @JoinColumn(name = "DIR_ID", referencedColumnName = "DOCUMENTO")
-    @ManyToOne
-    private Users dirId;
-    @JoinColumn(name = "EST_ID", referencedColumnName = "DOCUMENTO")
-    @ManyToOne
-    private Users estId;
     @OneToMany(mappedBy = "propuestaId")
     private List<TrabajoFinal> trabajoFinalList;
 
@@ -121,36 +121,36 @@ public class Propuesta implements Serializable {
         this.conceptoId = conceptoId;
     }
 
+    public Docente getCodirId() {
+        return codirId;
+    }
+
+    public void setCodirId(Docente codirId) {
+        this.codirId = codirId;
+    }
+
+    public Docente getDirId() {
+        return dirId;
+    }
+
+    public void setDirId(Docente dirId) {
+        this.dirId = dirId;
+    }
+
+    public Estudiante getEstId() {
+        return estId;
+    }
+
+    public void setEstId(Estudiante estId) {
+        this.estId = estId;
+    }
+
     public Modalidad getModalidadId() {
         return modalidadId;
     }
 
     public void setModalidadId(Modalidad modalidadId) {
         this.modalidadId = modalidadId;
-    }
-
-    public Users getCodirId() {
-        return codirId;
-    }
-
-    public void setCodirId(Users codirId) {
-        this.codirId = codirId;
-    }
-
-    public Users getDirId() {
-        return dirId;
-    }
-
-    public void setDirId(Users dirId) {
-        this.dirId = dirId;
-    }
-
-    public Users getEstId() {
-        return estId;
-    }
-
-    public void setEstId(Users estId) {
-        this.estId = estId;
     }
 
     @XmlTransient

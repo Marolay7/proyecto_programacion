@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
 
@@ -9,6 +12,149 @@
 
             <ui:define name="content">
                 
+                
+                
+        <p:growl id="msj" />
+        <h:form id="nuevo">
+            <p:fieldset legend="Nuevo" toggleable="true">
+                <p:panelGrid columns="1">
+                    <p:commandButton value="Nuevo" oncomplete="PF('valor').show();"/>
+                </p:panelGrid>
+            </p:fieldset>
+        </h:form>
+        <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nuevo Registro" resizable="false">
+            <p:ajax event="close" listener="#{bancoManagedBean.limpiar()}" update=":p" />
+            <h:form id="p">
+                <p:panelGrid columns="2">
+                    
+                    <p:outputLabel value="Ingrese Id"/>
+                    <p:calendar value="#{bancoManagedBean.banco.id}"/>
+                    
+                    <p:outputLabel value="Ingrese Nombre"/>
+                    <p:calendar value="#{bancoManagedBean.banco.nombre}"/>
+                    
+                    <p:outputLabel value="Seleccione Materia" />
+                    <p:selectOneMenu value="#{bancoManagedBean.banco.profDocumento}">
+                        <f:selectItems value="#{materiaManagedBean.listaMateria}" var="m" 
+                                       itemValue="#{m.idMateria}" itemLabel="#{m.materia}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Seleccione Maestro" />
+                    <p:selectOneMenu value="#{registroManagedBean.maestro.idMaestro}">
+                        <f:selectItems value="#{maestroManagedBean.listaMaestro}" var="ma" 
+                                       itemValue="#{ma.idMaestro}" itemLabel="#{ma.nombre} #{ma.apellido}"  />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Save" actionListener="#{registroManagedBean.guardar()}" oncomplete="PF('valor').hide();"
+                                     rendered="#{registroManagedBean.registro.id == 0}"
+                                     update=":Datos p :msj"/>
+                    <p:commandButton value="Update" actionListener="#{registroManagedBean.actualizar()}" oncomplete="PF('valor').hide();"
+                                     rendered="#{registroManagedBean.registro.id != 0}"
+                                     update=":Datos p :msj"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <h:form id="Datos">
+            <p:fieldset legend="Datos" toggleable="true">
+                <p:dataTable id="registro" value="#{registroManagedBean.listaRegistro}" var="r">
+                    <p:column headerText="Id">
+                        <h:outputText value="#{r.id}" />
+                    </p:column>
+                    <p:column headerText="Fecha">
+                        <h:outputText value="#{r.fecha}">
+                            <f:convertDateTime pattern="YYYY-MM-dd" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{r.idMaestro.nombre}" />
+                    </p:column>
+                    <p:column headerText="Apellido">
+                        <h:outputText value="#{r.idMaestro.apellido}" />
+                    </p:column>
+                    <p:column headerText="Materia">
+                        <h:outputText value="#{r.idMateria.materia}" />
+                    </p:column>
+                    <p:column headerText="Eliminar" exportable="false">
+                        <p:commandButton value="Eliminar" actionListener="#{registroManagedBean.eliminar(r)}" 
+                                         update=":Datos :msj"/>
+                    </p:column>
+                    <p:column headerText="Actualizar" exportable="false">
+                        <p:commandButton value="Actualizar" actionListener="#{registroManagedBean.cargarDatos(r)}" 
+                                         update=":p" oncomplete="PF('valor').show();"/>
+                    </p:column>
+                </p:dataTable>
+                <h:commandLink>
+                    <p:graphicImage url="../images/pdf.png" width="30"/>
+                    <p:dataExporter type="pdf" target="registro" fileName="pdfRegistro" />
+                </h:commandLink>
+                <h:commandLink>
+                    <p:graphicImage url="../images/excel.png" width="40"/>
+                    <p:dataExporter type="csv" target="registro" fileName="excelRegistro" />
+                </h:commandLink>
+            </p:fieldset>
+        </h:form>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <f:view>
+
+                    <h:form>
+                        <h1><h:outputText value="Lista de Banco de Ideas "/></h1>
+                        <p:dataTable value="#{bancoManagedBean.findAll()}" var="item">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Id"/>
+                                </f:facet>
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Modalidad"/>
+                                </f:facet>
+                                <h:outputText value="#{item.modalidadId.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Programa"/>
+                                </f:facet>
+                                <h:outputText value="#{item.programaCodigo.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Profesor nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{item.profDocumento.username}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Profesor apellidos"/>
+                                </f:facet>
+                                <h:outputText value="#{item.profDocumento.apellido}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Profesor correo"/>
+                                </f:facet>
+                                <h:outputText value="#{item.profDocumento.correo}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+
             </ui:define>
 
         </ui:composition>

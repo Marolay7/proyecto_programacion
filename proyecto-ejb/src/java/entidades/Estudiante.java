@@ -10,8 +10,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,48 +27,56 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Marolay Duque
  */
 @Entity
-@Table(name = "CONCEPTO")
+@Table(name = "ESTUDIANTE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Concepto.findAll", query = "SELECT c FROM Concepto c")
-    , @NamedQuery(name = "Concepto.findById", query = "SELECT c FROM Concepto c WHERE c.id = :id")
-    , @NamedQuery(name = "Concepto.findByNombre", query = "SELECT c FROM Concepto c WHERE c.nombre = :nombre")})
-public class Concepto implements Serializable {
+    @NamedQuery(name = "Estudiante.findAll", query = "SELECT e FROM Estudiante e")
+    , @NamedQuery(name = "Estudiante.findByDocumento", query = "SELECT e FROM Estudiante e WHERE e.documento = :documento")
+    , @NamedQuery(name = "Estudiante.findByNombre", query = "SELECT e FROM Estudiante e WHERE e.nombre = :nombre")
+    , @NamedQuery(name = "Estudiante.findByCorreo", query = "SELECT e FROM Estudiante e WHERE e.correo = :correo")
+    , @NamedQuery(name = "Estudiante.findByTelefono", query = "SELECT e FROM Estudiante e WHERE e.telefono = :telefono")})
+public class Estudiante implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
-    private Integer id;
+    @NotNull
+    @Column(name = "DOCUMENTO")
+    private Integer documento;
     @Size(max = 255)
     @Column(name = "NOMBRE")
     private String nombre;
-    @JoinColumn(name = "CALIFICADOR_DOCUMENTO", referencedColumnName = "DOCUMENTO")
-    @ManyToOne
-    private Docente calificadorDocumento;
-    @OneToMany(mappedBy = "conceptoId")
+    @Size(max = 255)
+    @Column(name = "CORREO")
+    private String correo;
+    @Size(max = 15)
+    @Column(name = "TELEFONO")
+    private String telefono;
+    @OneToMany(mappedBy = "estId")
     private List<FinalPractica> finalPracticaList;
-    @OneToMany(mappedBy = "conceptoId")
+    @OneToMany(mappedBy = "estId")
     private List<Propuesta> propuestaList;
-    @OneToMany(mappedBy = "conceptoId")
+    @JoinColumn(name = "PROGRAMA_ID", referencedColumnName = "CODIGO")
+    @ManyToOne
+    private Programa programaId;
+    @OneToMany(mappedBy = "estId")
     private List<TrabajoFinal> trabajoFinalList;
-    @OneToMany(mappedBy = "conceptoId")
+    @OneToMany(mappedBy = "estId")
     private List<PropuestaPractica> propuestaPracticaList;
 
-    public Concepto() {
+    public Estudiante() {
     }
 
-    public Concepto(Integer id) {
-        this.id = id;
+    public Estudiante(Integer documento) {
+        this.documento = documento;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getDocumento() {
+        return documento;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDocumento(Integer documento) {
+        this.documento = documento;
     }
 
     public String getNombre() {
@@ -80,12 +87,20 @@ public class Concepto implements Serializable {
         this.nombre = nombre;
     }
 
-    public Docente getCalificadorDocumento() {
-        return calificadorDocumento;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setCalificadorDocumento(Docente calificadorDocumento) {
-        this.calificadorDocumento = calificadorDocumento;
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     @XmlTransient
@@ -104,6 +119,14 @@ public class Concepto implements Serializable {
 
     public void setPropuestaList(List<Propuesta> propuestaList) {
         this.propuestaList = propuestaList;
+    }
+
+    public Programa getProgramaId() {
+        return programaId;
+    }
+
+    public void setProgramaId(Programa programaId) {
+        this.programaId = programaId;
     }
 
     @XmlTransient
@@ -127,18 +150,18 @@ public class Concepto implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (documento != null ? documento.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Concepto)) {
+        if (!(object instanceof Estudiante)) {
             return false;
         }
-        Concepto other = (Concepto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        Estudiante other = (Estudiante) object;
+        if ((this.documento == null && other.documento != null) || (this.documento != null && !this.documento.equals(other.documento))) {
             return false;
         }
         return true;
@@ -146,7 +169,7 @@ public class Concepto implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.Concepto[ id=" + id + " ]";
+        return "entidades.Estudiante[ documento=" + documento + " ]";
     }
     
 }

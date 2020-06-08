@@ -41,15 +41,15 @@ public class BancoIdeas implements Serializable {
     @Size(max = 255)
     @Column(name = "NOMBRE")
     private String nombre;
+    @JoinColumn(name = "PROF_DOCUMENTO", referencedColumnName = "DOCUMENTO")
+    @ManyToOne
+    private Docente profDocumento;
     @JoinColumn(name = "MODALIDAD_ID", referencedColumnName = "ID")
     @ManyToOne
     private Modalidad modalidadId;
     @JoinColumn(name = "PROGRAMA_CODIGO", referencedColumnName = "CODIGO")
     @ManyToOne
     private Programa programaCodigo;
-    @JoinColumn(name = "PROF_DOCUMENTO", referencedColumnName = "DOCUMENTO")
-    @ManyToOne
-    private Users profDocumento;
 
     public BancoIdeas() {
     }
@@ -74,6 +74,14 @@ public class BancoIdeas implements Serializable {
         this.nombre = nombre;
     }
 
+    public Docente getProfDocumento() {
+        return profDocumento;
+    }
+
+    public void setProfDocumento(Docente profDocumento) {
+        this.profDocumento = profDocumento;
+    }
+
     public Modalidad getModalidadId() {
         return modalidadId;
     }
@@ -88,14 +96,6 @@ public class BancoIdeas implements Serializable {
 
     public void setProgramaCodigo(Programa programaCodigo) {
         this.programaCodigo = programaCodigo;
-    }
-
-    public Users getProfDocumento() {
-        return profDocumento;
-    }
-
-    public void setProfDocumento(Users profDocumento) {
-        this.profDocumento = profDocumento;
     }
 
     @Override

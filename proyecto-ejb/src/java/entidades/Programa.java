@@ -53,6 +53,8 @@ public class Programa implements Serializable {
     @OneToMany(mappedBy = "programaCodigo")
     private List<BancoIdeas> bancoIdeasList;
     @OneToMany(mappedBy = "programaId")
+    private List<Estudiante> estudianteList;
+    @OneToMany(mappedBy = "programaId")
     private List<Users> usersList;
 
     public Programa() {
@@ -101,6 +103,15 @@ public class Programa implements Serializable {
 
     public void setBancoIdeasList(List<BancoIdeas> bancoIdeasList) {
         this.bancoIdeasList = bancoIdeasList;
+    }
+
+    @XmlTransient
+    public List<Estudiante> getEstudianteList() {
+        return estudianteList;
+    }
+
+    public void setEstudianteList(List<Estudiante> estudianteList) {
+        this.estudianteList = estudianteList;
     }
 
     @XmlTransient

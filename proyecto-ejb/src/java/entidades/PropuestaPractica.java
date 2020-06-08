@@ -68,18 +68,18 @@ public class PropuestaPractica implements Serializable {
     @JoinColumn(name = "CONCEPTO_ID", referencedColumnName = "ID")
     @ManyToOne
     private Concepto conceptoId;
+    @JoinColumn(name = "DIR_ID", referencedColumnName = "DOCUMENTO")
+    @ManyToOne
+    private Docente dirId;
     @JoinColumn(name = "EMPRESA_ID", referencedColumnName = "ID")
     @ManyToOne
     private Empresa empresaId;
+    @JoinColumn(name = "EST_ID", referencedColumnName = "DOCUMENTO")
+    @ManyToOne
+    private Estudiante estId;
     @JoinColumn(name = "MODALIDAD_ID", referencedColumnName = "ID")
     @ManyToOne
     private Modalidad modalidadId;
-    @JoinColumn(name = "DIR_ID", referencedColumnName = "DOCUMENTO")
-    @ManyToOne
-    private Users dirId;
-    @JoinColumn(name = "EST_ID", referencedColumnName = "DOCUMENTO")
-    @ManyToOne
-    private Users estId;
 
     public PropuestaPractica() {
     }
@@ -153,6 +153,14 @@ public class PropuestaPractica implements Serializable {
         this.conceptoId = conceptoId;
     }
 
+    public Docente getDirId() {
+        return dirId;
+    }
+
+    public void setDirId(Docente dirId) {
+        this.dirId = dirId;
+    }
+
     public Empresa getEmpresaId() {
         return empresaId;
     }
@@ -161,28 +169,20 @@ public class PropuestaPractica implements Serializable {
         this.empresaId = empresaId;
     }
 
+    public Estudiante getEstId() {
+        return estId;
+    }
+
+    public void setEstId(Estudiante estId) {
+        this.estId = estId;
+    }
+
     public Modalidad getModalidadId() {
         return modalidadId;
     }
 
     public void setModalidadId(Modalidad modalidadId) {
         this.modalidadId = modalidadId;
-    }
-
-    public Users getDirId() {
-        return dirId;
-    }
-
-    public void setDirId(Users dirId) {
-        this.dirId = dirId;
-    }
-
-    public Users getEstId() {
-        return estId;
-    }
-
-    public void setEstId(Users estId) {
-        this.estId = estId;
     }
 
     @Override

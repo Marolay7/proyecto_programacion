@@ -6,7 +6,6 @@
 package entidades;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,12 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -60,33 +57,9 @@ public class Users implements Serializable {
     @Size(max = 255)
     @Column(name = "CORREO")
     private String correo;
-    @OneToMany(mappedBy = "calificadorDocumento")
-    private List<Concepto> conceptoList;
-    @OneToMany(mappedBy = "dirId")
-    private List<FinalPractica> finalPracticaList;
-    @OneToMany(mappedBy = "estId")
-    private List<FinalPractica> finalPracticaList1;
-    @OneToMany(mappedBy = "profDocumento")
-    private List<BancoIdeas> bancoIdeasList;
-    @OneToMany(mappedBy = "codirId")
-    private List<Propuesta> propuestaList;
-    @OneToMany(mappedBy = "dirId")
-    private List<Propuesta> propuestaList1;
-    @OneToMany(mappedBy = "estId")
-    private List<Propuesta> propuestaList2;
-    @OneToMany(mappedBy = "codirId")
-    private List<TrabajoFinal> trabajoFinalList;
-    @OneToMany(mappedBy = "dirId")
-    private List<TrabajoFinal> trabajoFinalList1;
-    @OneToMany(mappedBy = "estId")
-    private List<TrabajoFinal> trabajoFinalList2;
     @JoinColumn(name = "PROGRAMA_ID", referencedColumnName = "CODIGO")
     @ManyToOne
     private Programa programaId;
-    @OneToMany(mappedBy = "dirId")
-    private List<PropuestaPractica> propuestaPracticaList;
-    @OneToMany(mappedBy = "estId")
-    private List<PropuestaPractica> propuestaPracticaList1;
 
     public Users() {
     }
@@ -148,120 +121,12 @@ public class Users implements Serializable {
         this.correo = correo;
     }
 
-    @XmlTransient
-    public List<Concepto> getConceptoList() {
-        return conceptoList;
-    }
-
-    public void setConceptoList(List<Concepto> conceptoList) {
-        this.conceptoList = conceptoList;
-    }
-
-    @XmlTransient
-    public List<FinalPractica> getFinalPracticaList() {
-        return finalPracticaList;
-    }
-
-    public void setFinalPracticaList(List<FinalPractica> finalPracticaList) {
-        this.finalPracticaList = finalPracticaList;
-    }
-
-    @XmlTransient
-    public List<FinalPractica> getFinalPracticaList1() {
-        return finalPracticaList1;
-    }
-
-    public void setFinalPracticaList1(List<FinalPractica> finalPracticaList1) {
-        this.finalPracticaList1 = finalPracticaList1;
-    }
-
-    @XmlTransient
-    public List<BancoIdeas> getBancoIdeasList() {
-        return bancoIdeasList;
-    }
-
-    public void setBancoIdeasList(List<BancoIdeas> bancoIdeasList) {
-        this.bancoIdeasList = bancoIdeasList;
-    }
-
-    @XmlTransient
-    public List<Propuesta> getPropuestaList() {
-        return propuestaList;
-    }
-
-    public void setPropuestaList(List<Propuesta> propuestaList) {
-        this.propuestaList = propuestaList;
-    }
-
-    @XmlTransient
-    public List<Propuesta> getPropuestaList1() {
-        return propuestaList1;
-    }
-
-    public void setPropuestaList1(List<Propuesta> propuestaList1) {
-        this.propuestaList1 = propuestaList1;
-    }
-
-    @XmlTransient
-    public List<Propuesta> getPropuestaList2() {
-        return propuestaList2;
-    }
-
-    public void setPropuestaList2(List<Propuesta> propuestaList2) {
-        this.propuestaList2 = propuestaList2;
-    }
-
-    @XmlTransient
-    public List<TrabajoFinal> getTrabajoFinalList() {
-        return trabajoFinalList;
-    }
-
-    public void setTrabajoFinalList(List<TrabajoFinal> trabajoFinalList) {
-        this.trabajoFinalList = trabajoFinalList;
-    }
-
-    @XmlTransient
-    public List<TrabajoFinal> getTrabajoFinalList1() {
-        return trabajoFinalList1;
-    }
-
-    public void setTrabajoFinalList1(List<TrabajoFinal> trabajoFinalList1) {
-        this.trabajoFinalList1 = trabajoFinalList1;
-    }
-
-    @XmlTransient
-    public List<TrabajoFinal> getTrabajoFinalList2() {
-        return trabajoFinalList2;
-    }
-
-    public void setTrabajoFinalList2(List<TrabajoFinal> trabajoFinalList2) {
-        this.trabajoFinalList2 = trabajoFinalList2;
-    }
-
     public Programa getProgramaId() {
         return programaId;
     }
 
     public void setProgramaId(Programa programaId) {
         this.programaId = programaId;
-    }
-
-    @XmlTransient
-    public List<PropuestaPractica> getPropuestaPracticaList() {
-        return propuestaPracticaList;
-    }
-
-    public void setPropuestaPracticaList(List<PropuestaPractica> propuestaPracticaList) {
-        this.propuestaPracticaList = propuestaPracticaList;
-    }
-
-    @XmlTransient
-    public List<PropuestaPractica> getPropuestaPracticaList1() {
-        return propuestaPracticaList1;
-    }
-
-    public void setPropuestaPracticaList1(List<PropuestaPractica> propuestaPracticaList1) {
-        this.propuestaPracticaList1 = propuestaPracticaList1;
     }
 
     @Override
