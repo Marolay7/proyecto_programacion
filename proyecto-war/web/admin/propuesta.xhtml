@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../templates/admin.xhtml">
+
+            <ui:define name="content">
+                
+                <p:growl id="msj" />
+        <h:form id="nuevo">
+            <p:fieldset legend="Nuevo" toggleable="true">
+                <p:panelGrid columns="1">
+                    <p:commandButton value="Nuevo" oncomplete="PF('valor').show();"/>
+                </p:panelGrid>
+            </p:fieldset>
+        </h:form>
+        <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nueva solicitud" resizable="false">
+            <p:ajax event="close" listener="#{propuestaManagedBean.limpiar()}" update=":p" />
+            <h:form id="p">
+                <p:panelGrid columns="2">
+                    
+                                <p:outputLabel value="Ingrese Id:" for="id" />
+                                <p:inputText id="id" value="#{propuestaManagedBean.propuesta.id}" title="Id" required="true" requiredMessage="The Id field is required."/>
+                                <p:outputLabel value=" Ingrese Titulo:" for="titulo" />
+                                <p:inputText id="titulo" value="#{propuestaManagedBean.propuesta.titulo}" title="Titulo" />
+                                <p:outputLabel value="Ingrese Formato:" for="formato" />
+                                <p:inputText id="formato" value="#{propuestaManagedBean.propuesta.formato}" title="Formato" />
+                                <p:outputLabel value="Ingrese FechaEntrega:" for="fechaEntrega" />
+                                <p:inputText id="fechaEntrega" value="#{propuestaManagedBean.propuesta.fechaEntrega}" title="FechaEntrega" >
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </p:inputText>
+                                <p:outputLabel value="ConceptoId:" for="conceptoId" />
+                                <p:selectOneMenu id="conceptoId" value="#{propuestaManagedBean.propuesta.conceptoId}" >
+                                    <f:selectItems value="#{conceptoManagedBean.findAll()}" var="c"
+                                                   itemValue="#{c.id}" itemLabel="#{c.nombre}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Codirector :" for="codirId" />
+                                <p:selectOneMenu id="codirId" value="#{propuestaManagedBean.propuesta.codirId}" >
+                                    <f:selectItems value="#{profesoresManagedBean.findAll()}" var="p" 
+                                                   itemValue="#{p.documento}" itemLabel="#{p.nombre}" />
+                                </p:selectOneMenu>
+                                <p:outputLabel value="DirId:" for="dirId" />
+                                <p:selectOneMenu id="dirId" value="#{propuestaManagedBean.propuesta.dirId}" >
+                                    <f:selectItems value="#{profesoresManagedBean.findAll()}" var="p" 
+                                                    itemValue="#{p.documento}" itemLabel="#{p.nombre}" />
+                                </p:selectOneMenu>
+                                <p:outputLabel value="EstId:" for="estId" />
+                                <p:selectOneMenu id="estId" value="#{propuestaManagedBean.propuesta.estId}" >
+                                    <f:selectItems value="#{estudianteManagedBean.findAll()}" var="e"
+                                                   itemValue="#{e.documento}" itemLabel="#{e.nombre}"/>
+                                </p:selectOneMenu>
+                                
+                                <p:outputLabel value="ModalidadId:" for="modalidadId" />
+                                <p:selectOneMenu id="modalidadId" value="#{propuestaManagedBean.propuesta.modalidadId}" >
+                                 <f:selectItems value="#{modalidadManagedBean.findAll()}" var="m" 
+                                       itemValue="#{m.id}" itemLabel="#{m.nombre}"  /> 
+                                </p:selectOneMenu>
+   
+ 
+                    <p:commandButton value="Save" actionListener="#{propuestaManagedBean.guardar()}" oncomplete="PF('valor').hide();"
+                                     rendered="#{propuestaManagedBean.propuesta.id == 0}"
+                                     update=":Datos p :msj"/>
+                    <p:commandButton value="Update" actionListener="#{propuestaManagedBean.actualizar()}" oncomplete="PF('valor').hide();"
+                                     rendered="#{propuestaManagedBean.propuesta.id != 0}"
+                                     update=":Datos p :msj"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        
+        <h:form id="Datos">
+        
+            <p:fieldset legend="Datos" toggleable="true">
+                <p:dataTable value="#{propuestaManagedBean.findAll()}" var="item"  rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15">
+                    <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Id"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Titulo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.titulo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Formato"/>
+                            </f:facet>
+                            <h:outputText value="#{item.formato}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="FechaEntrega"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaEntrega}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="ConceptoId"/>
+                            </f:facet>
+                            <h:outputText value="#{item.conceptoId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="CodirId"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codirId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="DirId"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dirId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="EstId"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="ModalidadId"/>
+                            </f:facet>
+                            <h:outputText value="#{item.modalidadId}"/>
+                        </p:column>
+
+                    <p:column headerText="Eliminar" exportable="false">
+                        <p:commandButton value="Eliminar" actionListener="#{solicitudManagedBean.eliminar(item)}" 
+                                         update=":Datos :msj"/>
+                    </p:column>
+                    <p:column headerText="Actualizar" exportable="false">
+                        <p:commandButton value="Actualizar" actionListener="#{solicitudManagedBean.cargarDatos(item)}" 
+                                         update=":p" oncomplete="PF('valor').show();"/>
+                    </p:column>
+                </p:dataTable>
+                <h:commandLink>
+                    <p:graphicImage url="../images/pdf.png" width="30"/>
+                    <p:dataExporter type="pdf" target="solicitud" fileName="pdfRegistro" />
+                </h:commandLink>
+                <h:commandLink>
+                    <p:graphicImage url="../images/excel.png" width="40"/>
+                    <p:dataExporter type="csv" target="solicitud" fileName="excelRegistro" />
+                </h:commandLink>
+            </p:fieldset>
+        </h:form>
+                
+                
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
