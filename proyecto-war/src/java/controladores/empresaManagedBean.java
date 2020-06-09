@@ -7,9 +7,6 @@ package controladores;
 
 import ejb.EmpresaFacadeLocal;
 import entidades.Empresa;
-import entidades.FinalPractica;
-import entidades.PropuestaPractica;
-import entidades.SolicitudPracticantes;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -26,7 +23,7 @@ public class empresaManagedBean implements Serializable {
 
     @EJB
     private EmpresaFacadeLocal empresaFacade;
-    Empresa empresa = new Empresa();
+    private Empresa empresa ;
     private Integer id;
     private String nombre;
     private String sector;
@@ -34,9 +31,6 @@ public class empresaManagedBean implements Serializable {
     private String direccion;
     private String telefono;
     private String correo;
-    private List<FinalPractica> finalPracticaList;
-    private List<SolicitudPracticantes> solicitudPracticantesList;
-    private List<PropuestaPractica> propuestaPracticaList;
 
     public Empresa getEmpresa() {
         return empresa;
