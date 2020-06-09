@@ -22,7 +22,7 @@
                 </p:panelGrid>
             </p:fieldset>
         </h:form>
-        <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nuevo Registro" resizable="false">
+        <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nuevo Idea" resizable="false">
             <p:ajax event="close" listener="#{bancoManagedBean.limpiar()}" update=":p" />
             <h:form id="p">
                 <p:panelGrid columns="2">
@@ -60,7 +60,7 @@
         </p:dialog>
         <h:form id="Datos">
             <p:fieldset legend="Datos" toggleable="true">
-                <p:dataTable id="registro" value="#{bancoManagedBean.findAll()}" var="item" rows="10"
+                <p:dataTable id="banco" value="#{bancoManagedBean.findAll()}" var="item" rows="10"
                  paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="5,10,15" >
@@ -110,12 +110,12 @@
                     </p:column>
                 </p:dataTable>
                 <h:commandLink>
-                    <p:graphicImage url="../images/pdf.png" width="30"/>
-                    <p:dataExporter type="pdf" target="registro" fileName="pdfRegistro" />
+                    <p:graphicImage url="../images/pdf.png" width="25"/>
+                    <p:dataExporter type="pdf" target="banco" fileName="pdfBanco" />
                 </h:commandLink>
                 <h:commandLink>
                     <p:graphicImage url="../images/excel.png" width="40"/>
-                    <p:dataExporter type="csv" target="registro" fileName="excelRegistro" />
+                    <p:dataExporter type="csv" target="banco" fileName="excelBanco" />
                 </h:commandLink>
             </p:fieldset>
         </h:form>

@@ -20,7 +20,7 @@
                 </p:panelGrid>
             </p:fieldset>
         </h:form>
-        <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nueva solicitud" resizable="false">
+        <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nueva Propuesta" resizable="false">
             <p:ajax event="close" listener="#{propuestaManagedBean.limpiar()}" update=":p" />
             <h:form id="p">
                 <p:panelGrid columns="2">
@@ -35,28 +35,32 @@
                                 <p:inputText id="fechaEntrega" value="#{propuestaManagedBean.propuesta.fechaEntrega}" title="FechaEntrega" >
                                     <f:convertDateTime pattern="MM/dd/yyyy" />
                                 </p:inputText>
-                                <p:outputLabel value="ConceptoId:" for="conceptoId" />
-                                <p:selectOneMenu id="conceptoId" value="#{propuestaManagedBean.propuesta.conceptoId}" >
-                                    <f:selectItems value="#{conceptoManagedBean.findAll()}" var="c"
-                                                   itemValue="#{c.id}" itemLabel="#{c.nombre}"/>
+                                <p:outputLabel value="Concepto:" for="conceptoId" />
+                                <p:selectOneMenu id="conceptoId" value="#{propuestaManagedBean.propuesta.conceptoId}" style="width:125px" >
+                                    <f:selectItem itemLabel="Seleccione concepto" itemValue="" />
+                                    <f:selectItem itemLabel="APROBADO" itemValue="APROBADO" />
+                                    <f:selectItem itemLabel="REPROBADO" itemValue="REPROBADO" />
+                                    <f:selectItem itemLabel="EN ESPERA" itemValue="EN ESPERA" />
+
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Director:" for="dirId" />
+                                <p:selectOneMenu id="dirId" value="#{propuestaManagedBean.propuesta.dirId}" >
+                                    <f:selectItems value="#{profesoresManagedBean.findAll()}" var="p" 
+                                                   itemValue="#{p.documento}" itemLabel="#{p.nombre}" />
                                 </p:selectOneMenu>
                                 <p:outputLabel value="Codirector :" for="codirId" />
                                 <p:selectOneMenu id="codirId" value="#{propuestaManagedBean.propuesta.codirId}" >
                                     <f:selectItems value="#{profesoresManagedBean.findAll()}" var="p" 
                                                    itemValue="#{p.documento}" itemLabel="#{p.nombre}" />
                                 </p:selectOneMenu>
-                                <p:outputLabel value="DirId:" for="dirId" />
-                                <p:selectOneMenu id="dirId" value="#{propuestaManagedBean.propuesta.dirId}" >
-                                    <f:selectItems value="#{profesoresManagedBean.findAll()}" var="p" 
-                                                    itemValue="#{p.documento}" itemLabel="#{p.nombre}" />
-                                </p:selectOneMenu>
-                                <p:outputLabel value="EstId:" for="estId" />
+
+                                <p:outputLabel value="Estudiante:" for="estId" />
                                 <p:selectOneMenu id="estId" value="#{propuestaManagedBean.propuesta.estId}" >
                                     <f:selectItems value="#{estudianteManagedBean.findAll()}" var="e"
                                                    itemValue="#{e.documento}" itemLabel="#{e.nombre}"/>
                                 </p:selectOneMenu>
                                 
-                                <p:outputLabel value="ModalidadId:" for="modalidadId" />
+                                <p:outputLabel value="Modalidad:" for="modalidadId" />
                                 <p:selectOneMenu id="modalidadId" value="#{propuestaManagedBean.propuesta.modalidadId}" >
                                  <f:selectItems value="#{modalidadManagedBean.findAll()}" var="m" 
                                        itemValue="#{m.id}" itemLabel="#{m.nombre}"  /> 
@@ -77,7 +81,7 @@
         <h:form id="Datos">
         
             <p:fieldset legend="Datos" toggleable="true">
-                <p:dataTable value="#{propuestaManagedBean.findAll()}" var="item"  rows="10"
+                <p:dataTable id="propuestas" value="#{propuestaManagedBean.findAll()}" var="item"  rows="10"
                  paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="5,10,15">
@@ -109,33 +113,33 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="ConceptoId"/>
+                                <h:outputText value="Concepto"/>
                             </f:facet>
-                            <h:outputText value="#{item.conceptoId}"/>
+                            <h:outputText value="#{item.conceptoId.nombre}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="CodirId"/>
+                                <h:outputText value="Codirector"/>
                             </f:facet>
-                            <h:outputText value="#{item.codirId}"/>
+                            <h:outputText value="#{item.codirId.nombre}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="DirId"/>
+                                <h:outputText value="Director"/>
                             </f:facet>
-                            <h:outputText value="#{item.dirId}"/>
+                            <h:outputText value="#{item.dirId.nombre}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="EstId"/>
+                                <h:outputText value="Estudiante"/>
                             </f:facet>
-                            <h:outputText value="#{item.estId}"/>
+                            <h:outputText value="#{item.estId.nombre}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="ModalidadId"/>
                             </f:facet>
-                            <h:outputText value="#{item.modalidadId}"/>
+                            <h:outputText value="#{item.modalidadId.nombre}"/>
                         </p:column>
 
                     <p:column headerText="Eliminar" exportable="false">
@@ -149,11 +153,11 @@
                 </p:dataTable>
                 <h:commandLink>
                     <p:graphicImage url="../images/pdf.png" width="30"/>
-                    <p:dataExporter type="pdf" target="solicitud" fileName="pdfRegistro" />
+                    <p:dataExporter type="pdf" target="propuestas" fileName="pdfPropuesta" />
                 </h:commandLink>
                 <h:commandLink>
                     <p:graphicImage url="../images/excel.png" width="40"/>
-                    <p:dataExporter type="csv" target="solicitud" fileName="excelRegistro" />
+                    <p:dataExporter type="csv" target="propuestas" fileName="excelPropuesta" />
                 </h:commandLink>
             </p:fieldset>
         </h:form>
