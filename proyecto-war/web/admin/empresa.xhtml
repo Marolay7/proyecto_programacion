@@ -95,7 +95,7 @@
                     </p:column>
                     <p:column headerText="Eliminar" exportable="false">
                         <p:commandButton icon="fa fa-trash" value="Eliminar" actionListener="#{empresaManagedBean.eliminar(item)}" 
-                                         update=":Datos :msj"/>
+                                         update=":Datos :msj" onclick="return confirm('Esta seguro de eliminar?')"/>
                     </p:column>
                     <p:column headerText="Actualizar" exportable="false">
                         <p:commandButton icon="fa fa-pencil" value="Actualizar" actionListener="#{empresaManagedBean.cargarDatos(item)}" 

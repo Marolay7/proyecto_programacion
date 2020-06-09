@@ -1,4 +1,3 @@
-
 package controladores;
 
 import ejb.BancoIdeasFacadeLocal;
@@ -25,17 +24,19 @@ public class bancoManagedBean implements Serializable {
 
     @EJB
     private BancoIdeasFacadeLocal bancoIdeasFacade;
-     private List<BancoIdeas> listaBanco;
-   private BancoIdeas banco;
-   private String msj;
+    private List<BancoIdeas> listaBanco;
+    private BancoIdeas banco;
+    private String msj;
 
     public List<BancoIdeas> getListaBanco() {
         this.listaBanco = this.bancoIdeasFacade.findAll();
         return listaBanco;
     }
-    public List<BancoIdeas> findAll(){
+
+    public List<BancoIdeas> findAll() {
         return bancoIdeasFacade.findAll();
     }
+
     public void setListaBanco(List<BancoIdeas> listaBanco) {
         this.listaBanco = listaBanco;
     }
@@ -44,18 +45,19 @@ public class bancoManagedBean implements Serializable {
         return banco;
     }
 
-    public void setMateria(BancoIdeas banco) {
+    public void setBancoIdeas(BancoIdeas banco) {
         this.banco = banco;
     }
-   
-   @PostConstruct
-   public void init(){
-       this.banco = new BancoIdeas();
-       Modalidad mod=new Modalidad();
-       Docente doc=new Docente();
-       Programa pro=new Programa();
-   }
-   public void guardar() {
+
+    @PostConstruct
+    public void init() {
+        this.banco = new BancoIdeas();
+        Modalidad mod = new Modalidad();
+        Docente doc = new Docente();
+        Programa pro = new Programa();
+    }
+
+    public void guardar() {
         try {
             this.bancoIdeasFacade.create(banco);
             this.msj = "Registro Creado Correctamente";
@@ -67,7 +69,7 @@ public class bancoManagedBean implements Serializable {
         FacesMessage mensaje = new FacesMessage(this.msj);
         FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
-    
+
     public void actualizar() {
         try {
             this.bancoIdeasFacade.edit(banco);
@@ -100,6 +102,5 @@ public class bancoManagedBean implements Serializable {
     public void limpiar() {
         this.banco = new BancoIdeas();
     }
-    
-    
+
 }
