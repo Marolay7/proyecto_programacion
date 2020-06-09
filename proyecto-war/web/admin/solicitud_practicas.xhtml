@@ -49,7 +49,7 @@
         
         <h:form id="Datos">
             <p:fieldset legend="Datos" toggleable="true">
-                <p:dataTable value="#{solicitudManagedBean.findAll()}" var="item"  rows="10"
+                <p:dataTable  id="solicitud" value="#{solicitudManagedBean.findAll()}" var="item"  rows="10"
                  paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="5,10,15">
@@ -84,11 +84,11 @@
                 </p:dataTable>
                 <h:commandLink>
                     <p:graphicImage url="../images/pdf.png" width="30"/>
-                    <p:dataExporter type="pdf" target="solicitud" fileName="pdfRegistro" />
+                    <p:dataExporter type="pdf" target="solicitud" fileName="pdfSolicitudes" />
                 </h:commandLink>
                 <h:commandLink>
                     <p:graphicImage url="../images/excel.png" width="40"/>
-                    <p:dataExporter type="csv" target="solicitud" fileName="excelRegistro" />
+                    <p:dataExporter type="csv" target="solicitud" fileName="excelSolicitudes" />
                 </h:commandLink>
             </p:fieldset>
         </h:form>
