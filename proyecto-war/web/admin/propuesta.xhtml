@@ -36,34 +36,31 @@
                                     <f:convertDateTime pattern="MM/dd/yyyy" />
                                 </p:inputText>
                                 <p:outputLabel value="Concepto:" for="conceptoId" />
-                                <p:selectOneMenu id="conceptoId" value="#{propuestaManagedBean.propuesta.conceptoId}" style="width:125px" >
-                                    <f:selectItem itemLabel="Seleccione concepto" itemValue="" />
-                                    <f:selectItem itemLabel="APROBADO" itemValue="APROBADO" />
-                                    <f:selectItem itemLabel="REPROBADO" itemValue="REPROBADO" />
-                                    <f:selectItem itemLabel="EN ESPERA" itemValue="EN ESPERA" />
-
+                                <p:selectOneMenu id="conceptoId" value="#{propuestaManagedBean.propuesta.conceptoId}" style="width:125px" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItems value="#{conceptoManagedBean.findAll()}" var="c"
+                                                   itemValue="#{c}" itemLabel="#{c.nombre}"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="Director:" for="dirId" />
-                                <p:selectOneMenu id="dirId" value="#{propuestaManagedBean.propuesta.dirId}" >
+                                <p:selectOneMenu id="dirId" value="#{propuestaManagedBean.propuesta.dirId}" converter="omnifaces.SelectItemsConverter">
                                     <f:selectItems value="#{profesoresManagedBean.findAll()}" var="p" 
-                                                   itemValue="#{p.documento}" itemLabel="#{p.nombre}" />
+                                                   itemValue="#{p}" itemLabel="#{p.nombre}" />
                                 </p:selectOneMenu>
                                 <p:outputLabel value="Codirector :" for="codirId" />
-                                <p:selectOneMenu id="codirId" value="#{propuestaManagedBean.propuesta.codirId}" >
+                                <p:selectOneMenu id="codirId" value="#{propuestaManagedBean.propuesta.codirId}" converter="omnifaces.SelectItemsConverter">
                                     <f:selectItems value="#{profesoresManagedBean.findAll()}" var="p" 
-                                                   itemValue="#{p.documento}" itemLabel="#{p.nombre}" />
+                                                   itemValue="#{p}" itemLabel="#{p.nombre}" />
                                 </p:selectOneMenu>
 
                                 <p:outputLabel value="Estudiante:" for="estId" />
-                                <p:selectOneMenu id="estId" value="#{propuestaManagedBean.propuesta.estId}" >
+                                <p:selectOneMenu id="estId" value="#{propuestaManagedBean.propuesta.estId}" converter="omnifaces.SelectItemsConverter">
                                     <f:selectItems value="#{estudianteManagedBean.findAll()}" var="e"
-                                                   itemValue="#{e.documento}" itemLabel="#{e.nombre}"/>
+                                                   itemValue="#{e}" itemLabel="#{e.nombre}"/>
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel value="Modalidad:" for="modalidadId" />
-                                <p:selectOneMenu id="modalidadId" value="#{propuestaManagedBean.propuesta.modalidadId}" >
+                                <p:selectOneMenu id="modalidadId" value="#{propuestaManagedBean.propuesta.modalidadId}" converter="omnifaces.SelectItemsConverter">
                                  <f:selectItems value="#{modalidadManagedBean.findAll()}" var="m" 
-                                       itemValue="#{m.id}" itemLabel="#{m.nombre}"  /> 
+                                       itemValue="#{m}" itemLabel="#{m.nombre}"  /> 
                                 </p:selectOneMenu>
    
  
@@ -144,7 +141,7 @@
 
                     <p:column headerText="Eliminar" exportable="false">
                         <p:commandButton value="Eliminar" actionListener="#{solicitudManagedBean.eliminar(item)}" 
-                                         update=":Datos :msj"/>
+                                         update=":Datos :msj" onclick="return confirm('Esta seguro de eliminiar?')"/>
                     </p:column>
                     <p:column headerText="Actualizar" exportable="false">
                         <p:commandButton value="Actualizar" actionListener="#{solicitudManagedBean.cargarDatos(item)}" 

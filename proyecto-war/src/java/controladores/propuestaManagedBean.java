@@ -17,6 +17,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -28,18 +30,22 @@ public class propuestaManagedBean implements Serializable {
 
     @EJB
     private PropuestaFacadeLocal propuestaFacade;
-    
+    private List<Propuesta> listaPropuesta;
     private Propuesta propuesta;
-    
-    private Integer id;
-    private String titulo;
-    private String formato;
-    private String fechaEntrega;
-    private Concepto concepto;
-    private Docente codir;
-    private Docente dir;
-    private Estudiante est;
-    private Modalidad modalidad;
+    private String msj;
+
+    public List<Propuesta> getListaPropuesta() {
+        this.listaPropuesta = this.propuestaFacade.findAll();
+        return listaPropuesta;
+    }
+
+    public List<Propuesta> findAll() {
+        return propuestaFacade.findAll();
+    }
+
+    public void setListaPropuesta(List<Propuesta> listaPropuesta) {
+        this.listaPropuesta = listaPropuesta;
+    }
 
     public Propuesta getPropuesta() {
         return propuesta;
@@ -49,94 +55,61 @@ public class propuestaManagedBean implements Serializable {
         this.propuesta = propuesta;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getFormato() {
-        return formato;
-    }
-
-    public void setFormato(String formato) {
-        this.formato = formato;
-    }
-
-    public String getFechaEntrega() {
-        return fechaEntrega;
-    }
-
-    public void setFechaEntrega(String fechaEntrega) {
-        this.fechaEntrega = fechaEntrega;
-    }
-
-    public Concepto getConceptoId() {
-        return concepto;
-    }
-
-    public void setConceptoId(Concepto conceptoId) {
-        this.concepto = conceptoId;
-    }
-
-    public Docente getCodirId() {
-        return codir;
-    }
-
-    public void setCodirId(Docente codirId) {
-        this.codir = codirId;
-    }
-
-    public Docente getDirId() {
-        return dir;
-    }
-
-    public void setDirId(Docente dirId) {
-        this.dir = dirId;
-    }
-
-    public Estudiante getEstId() {
-        return est;
-    }
-
-    public void setEstId(Estudiante estId) {
-        this.est = estId;
-    }
-
-    public Modalidad getModalidadId() {
-        return modalidad;
-    }
-
-    public void setModalidadId(Modalidad modalidadId) {
-        this.modalidad = modalidadId;
-    }
-
-    public List<Propuesta> findAll() {
-        return propuestaFacade.findAll();
-    }
-
-     @PostConstruct
+    @PostConstruct
     public void init() {
         this.propuesta = new Propuesta();
-        this.concepto = new Concepto();
-        this.dir = new Docente();
-        this.codir = new Docente();
-        this.est = new Estudiante();
-        this.modalidad = new Modalidad();
+        Concepto concepto = new Concepto();
+        Docente dir = new Docente();
+        Docente codir = new Docente();
+        Estudiante est = new Estudiante();
+        Modalidad modalidad = new Modalidad();
     }
 
-    
-    public propuestaManagedBean() {
+    public void guardar() {
+        try {
+            this.propuestaFacade.create(propuesta);
+            this.msj = "Registro Creado Correctamente";
+            this.propuesta = new Propuesta();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
-    
+
+    public void actualizar() {
+        try {
+            this.propuestaFacade.edit(propuesta);
+            this.msj = "Registro Actualizado Correctamente";
+            this.propuesta = new Propuesta();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
+    }
+
+    public void eliminar(Propuesta ban) {
+        try {
+            this.propuestaFacade.remove(ban);
+            this.msj = "Registro Eliminado Correctamente";
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
+    }
+
+    public void cargarDatos(Propuesta ba) {
+        this.propuesta = ba;
+    }
+
+    public void limpiar() {
+        this.propuesta = new Propuesta();
+    }
+
+
 }
