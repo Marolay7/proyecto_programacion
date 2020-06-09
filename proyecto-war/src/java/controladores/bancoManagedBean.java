@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -23,90 +25,81 @@ public class bancoManagedBean implements Serializable {
 
     @EJB
     private BancoIdeasFacadeLocal bancoIdeasFacade;
-    
-    private BancoIdeas banco;
-    private Integer id;
-    private String nombre;
-    private Modalidad modalidad;
-    private Programa programa;
-    private Docente profesor;
-    
-    private List<BancoIdeas> bancoIdeasList;
-    
-     public List<BancoIdeas> getListaRegistro() {
-        this.bancoIdeasList = this.bancoIdeasFacade.findAll();
-        return bancoIdeasList;
+     private List<BancoIdeas> listaBanco;
+   private BancoIdeas banco;
+   private String msj;
+
+    public List<BancoIdeas> getListaBanco() {
+        this.listaBanco = this.bancoIdeasFacade.findAll();
+        return listaBanco;
     }
-
-    public void setListaRegistro(List<BancoIdeas> bancoIdeasList) {
-        this.bancoIdeasList = bancoIdeasList;
+    public List<BancoIdeas> findAll(){
+        return bancoIdeasFacade.findAll();
     }
-
-
+    public void setListaBanco(List<BancoIdeas> listaBanco) {
+        this.listaBanco = listaBanco;
+    }
 
     public BancoIdeas getBanco() {
         return banco;
     }
 
-    public void setBanco(BancoIdeas banco) {
+    public void setMateria(BancoIdeas banco) {
         this.banco = banco;
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Modalidad getModalidad() {
-        return modalidad;
-    }
-
-    public void setModalidad(Modalidad modalidad) {
-        this.modalidad = modalidad;
-    }
-
-    public Programa getPrograma() {
-        return programa;
-    }
-
-    public void setPrograma(Programa programa) {
-        this.programa = programa;
-    }
-
-    public Docente getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(Docente profesor) {
-        this.profesor = profesor;
+   
+   @PostConstruct
+   public void init(){
+       this.banco = new BancoIdeas();
+       Modalidad mod=new Modalidad();
+       Docente doc=new Docente();
+       Programa pro=new Programa();
+   }
+   public void guardar() {
+        try {
+            this.bancoIdeasFacade.create(banco);
+            this.msj = "Registro Creado Correctamente";
+            this.banco = new BancoIdeas();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
     
-     @PostConstruct
-    public void init() {
+    public void actualizar() {
+        try {
+            this.bancoIdeasFacade.edit(banco);
+            this.msj = "Registro Actualizado Correctamente";
+            this.banco = new BancoIdeas();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
+    }
+
+    public void eliminar(BancoIdeas ban) {
+        try {
+            this.bancoIdeasFacade.remove(ban);
+            this.msj = "Registro Eliminado Correctamente";
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
+    }
+
+    public void cargarDatos(BancoIdeas ba) {
+        this.banco = ba;
+    }
+
+    public void limpiar() {
         this.banco = new BancoIdeas();
-        this.modalidad = new Modalidad();
-        this.programa = new Programa();
-        this.profesor = new Docente();
     }
-
-    public List<BancoIdeas> findAll() {
-        return bancoIdeasFacade.findAll();
-    }
-
-
-
-    public bancoManagedBean() {
-    }
+    
     
 }

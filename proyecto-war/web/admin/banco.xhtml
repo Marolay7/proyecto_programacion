@@ -34,26 +34,19 @@
                     <p:inputText value="#{bancoManagedBean.banco.nombre}"/>
                     
                     <p:outputLabel value="Seleccione docente" />
-                    <p:selectOneMenu value="#{bancoManagedBean.banco.profDocumento}">
+                    <p:selectOneMenu value="#{bancoManagedBean.banco.profDocumento}" converter="omnifaces.SelectItemsConverter">
                         <f:selectItems value="#{docenteManagedBean.findAll()}" var="d" 
-                                       itemValue="#{d.documento}" itemLabel="#{d.nombre}" />
+                                       itemValue="#{d}" itemLabel="#{d.nombre}" />
                     </p:selectOneMenu>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     <p:outputLabel value="Seleccione Modalidad" />
-                    <p:selectOneMenu value="#{bancoManagedBean.banco.modalidadId}">
+                    <p:selectOneMenu value="#{bancoManagedBean.banco.modalidadId}" converter="omnifaces.SelectItemsConverter">
                         <f:selectItems value="#{modalidadManagedBean.findAll()}" var="m" 
-                                       itemValue="#{m.id}" itemLabel="#{m.nombre}"  />
+                                       itemValue="#{m}" itemLabel="#{m.nombre}"  />
                     </p:selectOneMenu>
                     <p:outputLabel value="Seleccione Programa" />
-                    <p:selectOneMenu value="#{bancoManagedBean.banco.programaCodigo}">
+                    <p:selectOneMenu value="#{bancoManagedBean.banco.programaCodigo}" converter="omnifaces.SelectItemsConverter">
                         <f:selectItems value="#{programaManagedBean.findAll()}" var="pro" 
-                                       itemValue="#{pro.codigo}" itemLabel="#{pro.nombre}"  />
+                                       itemValue="#{pro}" itemLabel="#{pro.nombre}"  />
                     </p:selectOneMenu> 
  
                     <p:commandButton value="Save" actionListener="#{bancoManagedBean.guardar()}" oncomplete="PF('valor').hide();"
@@ -109,7 +102,7 @@
                     </p:column>
                     <p:column headerText="Eliminar" exportable="false">
                         <p:commandButton value="Eliminar" actionListener="#{bancoManagedBean.eliminar(item)}" 
-                                         update=":Datos :msj"/>
+                                         update=":Datos :msj" onclick="return confirm('Esta seguro de eliminar?')"/>
                     </p:column>
                     <p:column headerText="Actualizar" exportable="false">
                         <p:commandButton value="Actualizar" actionListener="#{bancoManagedBean.cargarDatos(item)}" 
