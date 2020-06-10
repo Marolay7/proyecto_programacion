@@ -1,20 +1,44 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Login</title>
+       
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+
     </h:head>
     <h:body>
-        <h2>Login de Acceso!</h2>
-        <form method="post" action="j_security_check">
-            username: <input type="text" name="j_username" /><br/>
-            password: <input type="password" name="j_password" /><br/>
-            <input type="submit" value="login" /><br/>
-            <input type="reset" value="reset" />
-            
-            
-        </form>
+             
+        
+         <div id="login">
+        <h3 class="text-center text-white pt-5">Formulario Acceso</h3>
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form id="login-form" class="form" method="POST" action="j_security_check"> 
+                            <h3 class="text-center text-info">Login</h3>
+                            <div class="form-group">
+                                <label for="username" class="text-info">Nombre de Usuario:</label><br/>
+                                <input type="text"  name="j_username" id="username" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="text-info">Clave:</label><br/>
+                                <input type="password" name="j_password" id="password" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Login"/>
+                                                <input type="reset" class="btn btn-info btn-md" value="reset" />
+                                                <a href="../index.xhtml" class="btn btn-info btn-md">Inicio</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </h:body>
 </html>
 

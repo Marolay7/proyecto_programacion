@@ -40,7 +40,7 @@ public class User implements Serializable {
     
     public String logout(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/index";
+        return "./../index";
     }
     
 }

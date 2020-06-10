@@ -75,14 +75,6 @@
                             <h:outputText value="#{item.modalidadId.nombre}"/>
                         </p:column>
 
-                    <p:column headerText="Eliminar" exportable="false">
-                        <p:commandButton value="Eliminar" actionListener="#{solicitudManagedBean.eliminar(item)}" 
-                                         update=":Datos :msj"/>
-                    </p:column>
-                    <p:column headerText="Actualizar" exportable="false">
-                        <p:commandButton value="Actualizar" actionListener="#{solicitudManagedBean.cargarDatos(item)}" 
-                                         update=":p" oncomplete="PF('valor').show();"/>
-                    </p:column>
                 </p:dataTable>
                    </p:fieldset>
         </h:form>
