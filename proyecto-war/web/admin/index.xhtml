@@ -10,13 +10,15 @@
         <ui:composition template="./../templates/admin.xhtml">
 
             <ui:define name="content">
-                 <h1>Hola admin #{user.name}</h1>
+                <h:body>
+                 <h1>Hola admin #{user.name}!</h1>
                 <br/>
                 <h:link outcome="/index" value="Regresar a la pagina de Inicio"></h:link> 
                 <br/>
                 <h:form>
                     <h:commandButton value="logout" action="#{user.logout}"/>
                 </h:form>
+                </h:body>
             </ui:define>
 
         </ui:composition>

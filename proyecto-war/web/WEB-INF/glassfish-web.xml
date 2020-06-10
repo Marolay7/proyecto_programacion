@@ -3,6 +3,11 @@
 <glassfish-web-app error-url="">
   <security-role-mapping>
     <role-name>admin</role-name>
+    <group-name>admin</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>estudiante</role-name>
+    <group-name>estudiante</group-name>
   </security-role-mapping>
   <resource-ref>
     <res-ref-name>jdbc/proyecto</res-ref-name>
