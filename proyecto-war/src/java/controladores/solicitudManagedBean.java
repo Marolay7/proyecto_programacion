@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -25,11 +27,22 @@ public class solicitudManagedBean implements Serializable {
 
     @EJB
     private SolicitudPracticantesFacadeLocal solicitudPracticantesFacade;
-
+    private List<SolicitudPracticantes> listaSolicitud;
     private SolicitudPracticantes solicitud;
-    private Integer id;
-    private Empresa empresa;
-    private List<SolicitudPracticantes> solicitudPracticantesList;
+    private String msj;
+
+    public List<SolicitudPracticantes> getListaSolicitudPracticantes() {
+        this.listaSolicitud = this.solicitudPracticantesFacade.findAll();
+        return listaSolicitud;
+    }
+
+    public List<SolicitudPracticantes> findAll() {
+        return solicitudPracticantesFacade.findAll();
+    }
+
+    public void setListaSolicitudPracticantes(List<SolicitudPracticantes> listaSolicitud) {
+        this.listaSolicitud = listaSolicitud;
+    }
 
     public SolicitudPracticantes getSolicitud() {
         return solicitud;
@@ -39,43 +52,56 @@ public class solicitudManagedBean implements Serializable {
         this.solicitud = solicitud;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Empresa getEmpresaId() {
-        return empresa;
-    }
-
-    public void setEmpresaId(Empresa empresaId) {
-        this.empresa = empresaId;
-    }
-
-    public List<SolicitudPracticantes> getListaSolicitud() {
-        this.solicitudPracticantesList = this.solicitudPracticantesFacade.findAll();
-        return solicitudPracticantesList;
-    }
-
-    public void setListaSolicitud(List<SolicitudPracticantes> solicitudPracticantesList) {
-        this.solicitudPracticantesList = solicitudPracticantesList;
-    }
-    
-      @PostConstruct
+    @PostConstruct
     public void init() {
         this.solicitud = new SolicitudPracticantes();
-        this.empresa = new Empresa();
+        Empresa emp=new Empresa();
     }
-    public List<SolicitudPracticantes> findAll() {
-        return solicitudPracticantesFacade.findAll();
+
+    public void guardar() {
+        try {
+            this.solicitudPracticantesFacade.create(solicitud);
+            this.msj = "Registro Creado Correctamente";
+            this.solicitud = new SolicitudPracticantes();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
-    
-    
-    
-    public solicitudManagedBean() {
+
+    public void actualizar() {
+        try {
+            this.solicitudPracticantesFacade.edit(solicitud);
+            this.msj = "Registro Actualizado Correctamente";
+            this.solicitud = new SolicitudPracticantes();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
-    
+
+    public void eliminar(SolicitudPracticantes ban) {
+        try {
+            this.solicitudPracticantesFacade.remove(ban);
+            this.msj = "Registro Eliminado Correctamente";
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
+    }
+
+    public void cargarDatos(SolicitudPracticantes ba) {
+        this.solicitud = ba;
+    }
+
+    public void limpiar() {
+        this.solicitud = new SolicitudPracticantes();
+    }
+
 }

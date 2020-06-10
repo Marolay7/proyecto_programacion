@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../templates/estudiante.xhtml">
+
+            <ui:define name="content">
+                <h:form id="Datos">
+            <p:fieldset legend="Datos" toggleable="true">
+                <p:dataTable value="#{solicitudManagedBean.findAll()}" var="item"  rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15">
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="Id solicitud"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                   
+                      <p:column filterBy="#{item.empresaId.nombre}" sortBy="#{item.empresaId.nombre}">
+                        <f:facet name="header">
+                            <h:outputText value="Empresa"/>
+                        </f:facet>
+                          <h:outputText value="#{item.empresaId.nombre}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.empresaId.sector}" sortBy="#{item.empresaId.sector}">
+                        <f:facet name="header">
+                            <h:outputText value="sector"/>
+                        </f:facet>
+                        <h:outputText value="#{item.empresaId.sector}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Direccion"/>
+                        </f:facet>
+                        <h:outputText value="#{item.empresaId.direccion}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Telefono"/>
+                        </f:facet>
+                        <h:outputText value="#{item.empresaId.telefono}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

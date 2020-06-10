@@ -11,7 +11,10 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -23,14 +26,22 @@ public class empresaManagedBean implements Serializable {
 
     @EJB
     private EmpresaFacadeLocal empresaFacade;
-    private Empresa empresa ;
-    private Integer id;
-    private String nombre;
-    private String sector;
-    private String representante;
-    private String direccion;
-    private String telefono;
-    private String correo;
+    private List<Empresa> listaEmpresa;
+    private Empresa empresa;
+    private String msj;
+
+    public List<Empresa> getListaEmpresa() {
+        this.listaEmpresa = this.empresaFacade.findAll();
+        return listaEmpresa;
+    }
+
+    public List<Empresa> findAll() {
+        return empresaFacade.findAll();
+    }
+
+    public void setListaEmpresa(List<Empresa> listaBanco) {
+        this.listaEmpresa = listaBanco;
+    }
 
     public Empresa getEmpresa() {
         return empresa;
@@ -40,69 +51,55 @@ public class empresaManagedBean implements Serializable {
         this.empresa = empresa;
     }
 
-    public Integer getId() {
-        return id;
+    @PostConstruct
+    public void init() {
+        this.empresa = new Empresa();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void guardar() {
+        try {
+            this.empresaFacade.create(empresa);
+            this.msj = "Registro Creado Correctamente";
+            this.empresa = new Empresa();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
 
-    public String getNombre() {
-        return nombre;
+    public void actualizar() {
+        try {
+            this.empresaFacade.edit(empresa);
+            this.msj = "Registro Actualizado Correctamente";
+            this.empresa = new Empresa();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void eliminar(Empresa emp) {
+        try {
+            this.empresaFacade.remove(emp);
+            this.msj = "Registro Eliminado Correctamente";
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error " + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
 
-    public String getSector() {
-        return sector;
+    public void cargarDatos(Empresa emp) {
+        this.empresa = emp;
     }
 
-    public void setSector(String sector) {
-        this.sector = sector;
+    public void limpiar() {
+        this.empresa = new Empresa();
     }
 
-    public String getRepresentante() {
-        return representante;
-    }
-
-    public void setRepresentante(String representante) {
-        this.representante = representante;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public List<Empresa> findAll() {
-        return empresaFacade.findAll();
-    }
-    
-    
-
-    public empresaManagedBean() {
-    }
-    
 }
